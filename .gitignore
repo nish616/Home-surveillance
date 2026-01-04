@@ -1,0 +1,8 @@
+events
+snapshots
+
+node_modules
+
+.env
+
+*.jpg
