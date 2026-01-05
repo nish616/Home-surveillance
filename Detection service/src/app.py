@@ -33,7 +33,3 @@ def toggle_snapshots(body: ToggleRequest):
 def set_cooldown(body: CooldownRequest):
     state.cooldown_seconds = body.seconds
     return {"cooldown_seconds": state.cooldown_seconds}
-
-@app.get("/events", response_model=list[Event])
-def get_events(limit: int = 20):
-    return state.events[-limit:]
