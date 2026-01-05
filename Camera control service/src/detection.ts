@@ -6,7 +6,7 @@ import {
   EventSchema,
 } from "./schemas";
 
-const BASE_URL = "http://localhost:9000";
+const BASE_URL = "http://localhost:8000";
 
 async function request<T>(
   path: string,
@@ -43,20 +43,9 @@ export function enableSnapshots(enabled: boolean) {
   });
 }
 
-export function enableRecording(enabled: boolean) {
-  return request("/control/recording", ToggleSchema, {
-    method: "POST",
-    body: JSON.stringify({ enabled }),
-  });
-}
-
 export function setCooldown(seconds: number) {
   return request("/control/cooldown", CooldownSchema, {
     method: "POST",
     body: JSON.stringify({ seconds }),
   });
-}
-
-export function getEvents(limit = 20) {
-  return request(`/events?limit=${limit}`, EventSchema);
 }

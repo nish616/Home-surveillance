@@ -24,12 +24,8 @@ class Event(BaseModel):
     motion_pixels: int
     snapshot: str | None
 
-@app.post("/snapshots")
+@app.post("/control/snapshots")
 def toggle_snapshots(body: ToggleRequest):
-    state.snapshots_enabled = body.enabled
-    return {"snapshots_enabled": state.snapshots_enabled}
-
-@app.post("/cooldown")
-def set_cooldown(body: CooldownRequest):
-    state.cooldown_seconds = body.seconds
-    return {"cooldown_seconds": state.cooldown_seconds}
+    print(f"Setting snapshots enabled to {body.enabled}")
+    state.SNAPSHOT_ENABLED = body.enabled
+    return {"enabled": state.SNAPSHOT_ENABLED}

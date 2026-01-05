@@ -8,9 +8,6 @@ import { parseBody } from "./utils/http";
 import {
   getStatus,
   enableSnapshots,
-  enableRecording,
-  setCooldown,
-  getEvents,
 } from "./detection";
 
 serve({
@@ -26,21 +23,6 @@ serve({
       if (req.method === "POST" && url.pathname === "/snapshots") {
         const body = await parseBody(req, ToggleSchema);
         return Response.json(await enableSnapshots(body.enabled));
-      }
-
-      if (req.method === "POST" && url.pathname === "/recording") {
-        const body = await parseBody(req, ToggleSchema);
-        return Response.json(await enableRecording(body.enabled));
-      }
-
-      if (req.method === "POST" && url.pathname === "/cooldown") {
-        const body = await parseBody(req, CooldownSchema);
-        return Response.json(await setCooldown(body.seconds));
-      }
-
-      if (req.method === "GET" && url.pathname === "/events") {
-        const limit = Number(url.searchParams.get("limit") ?? 20);
-        return Response.json(await getEvents(limit));
       }
 
       return new Response("Not Found", { status: 404 });

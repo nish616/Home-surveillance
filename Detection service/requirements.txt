@@ -1,2 +1,5 @@
 requests
 opencv-python
+fastapi
+uvicorn
+dotenv
