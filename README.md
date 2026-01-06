@@ -10,8 +10,19 @@ This project consists of two main services:
 
 The following diagram illustrates the architecture:
 
-```plantuml
-!include architecture.puml
+
+
+```
+	+---------------------+         +----------------------+
+	|  User (API/Frontend)|         |  Detection Service   |
+	+---------------------+         |   (OpenCV/Python)    |
+			  |                     +----------------------+
+			  |                             ^
+			  v                             |
+	+---------------------+         +----------------------+
+	| Camera Control      |-------->|  (Config/Control)    |
+	| Service (Bun)       |         |                      |
+	+---------------------+         +----------------------+
 ```
 
 ---
