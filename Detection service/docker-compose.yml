@@ -1,0 +1,11 @@
+services:
+  detection:
+    image: detection-service
+    ports:
+      - "8000:8000"
+    environment:
+      RTSP_URL: ${RTSP_URL}
+    volumes:
+      - ./snapshots:/app/snapshots
+      - ./events:/app/events
+    restart: unless-stopped

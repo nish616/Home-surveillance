@@ -1,5 +1,5 @@
 requests
-opencv-python
+opencv-python-headless
 fastapi
 uvicorn
-dotenv
+python-dotenv
