@@ -1,0 +1,20 @@
+@startuml
+!theme plain
+
+actor User
+
+package "Camera Control Service (Bun)" {
+  [Camera Control API]
+}
+
+package "Detection Service (OpenCV/Python)" {
+  [Motion Detection]
+  [Snapshot Storage]
+}
+
+User --> [Camera Control API] : Enable/Disable Snapshots
+[Camera Control API] --> [Motion Detection] : Control/Configure
+[Motion Detection] --> [Snapshot Storage] : Save Snapshots
+[Motion Detection] --> [Camera Control API] : Events/Status (optional)
+
+@enduml
