@@ -1,9 +1,14 @@
-from fastapi import FastAPI, HTTPException
+import os
+from dotenv import load_dotenv
+from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
-import time
 import state
 
+load_dotenv()
+
 app = FastAPI(title="Detection Service")
+
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 
 class ToggleRequest(BaseModel):
     enabled: bool
@@ -25,7 +30,10 @@ class Event(BaseModel):
     snapshot: str | None
 
 @app.post("/control/snapshots")
-def toggle_snapshots(body: ToggleRequest):
+def toggle_snapshots(body: ToggleRequest, authorization: str = Header(None)):
+    print("Received request to toggle snapshots", authorization, ACCESS_TOKEN)
+    if authorization != f"Bearer {ACCESS_TOKEN}":
+        raise HTTPException(status_code=401, detail="Unauthorized")
     print(f"Setting snapshots enabled to {body.enabled}")
     state.SNAPSHOT_ENABLED = body.enabled
     return {"enabled": state.SNAPSHOT_ENABLED}

@@ -4,6 +4,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      ACCESS_TOKEN: ${ACCESS_TOKEN}
       RTSP_URL: ${RTSP_URL}
     volumes:
       - ./snapshots:/app/snapshots

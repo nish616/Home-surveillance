@@ -40,6 +40,10 @@ export function enableSnapshots(enabled: boolean) {
   return request("/control/snapshots", ToggleSchema, {
     method: "POST",
     body: JSON.stringify({ enabled }),
+    headers: {
+      "Content-Type": "application/json",
+      "authorization": `Bearer ${process.env.ACCESS_TOKEN}`,
+    },
   });
 }
 
