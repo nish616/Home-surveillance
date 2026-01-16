@@ -13,11 +13,7 @@ It consists of two main services:
 
 **How it's helpful:**
 - Empowers users to enhance their surveillance capabilities for free.
-- Adds automated, event-driven image capture to any RTSP-compatible camera.
-- Reduces storage usage by only saving images when motion is detected.
-- Modular design allows for easy extension or integration with other smart home systems.
-- Separates control logic from detection, making the system more maintainable and scalable.
-
+	- Most automated surveillance capabilities require subscriptions even for very basic use cases. With this project, anyone with basic CS knowledge can enhance their home surveillance for free.
 **About RTSP:**
 This project leverages the Real Time Streaming Protocol (RTSP), a standard protocol supported by most IP cameras, to access live video streams. By connecting to your camera's RTSP stream, the Detection Service can process video in real time, detect motion, and trigger snapshot captures automatically. This means you can use virtually any RTSP-enabled camera, regardless of brand, and benefit from advanced motion-based recording features.
 
