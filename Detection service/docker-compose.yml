@@ -5,8 +5,12 @@ services:
       - "8000:8000"
     environment:
       ACCESS_TOKEN: ${ACCESS_TOKEN}
-      RTSP_URL: ${RTSP_URL}
+      RTSP_USERNAME: ${RTSP_USERNAME}
+      RTSP_PASSWORD: ${RTSP_PASSWORD}
+      RTSP_IP: ${RTSP_IP}
+      RTSP_PORT: ${RTSP_PORT}
     volumes:
       - ./snapshots:/app/snapshots
       - ./events:/app/events
+      - ./clips:/app/clips
     restart: unless-stopped

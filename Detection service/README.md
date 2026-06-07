@@ -17,7 +17,7 @@ See the main repository [architecture diagram](../architecture.puml) for an over
 Create a `.env` file in this directory with the following variables:
 
 ```
-RTSP_URL=rtsp://<user>:<password>@<camera_ip>:<port>/<stream>
+RTSP_URL=rtsp://<user>:<password>@<camera_ip>:<port>/
 ACCESS_TOKEN=<your_authorization_token>
 ```
 

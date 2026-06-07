@@ -5,15 +5,25 @@ import json
 from datetime import datetime
 from dotenv import load_dotenv
 import state
+from recorder import record_clip
 
 load_dotenv()
+
+def generate_rtsp_url():
+    username = os.getenv("RTSP_USERNAME")
+    password = os.getenv("RTSP_PASSWORD")
+    ip = os.getenv("RTSP_IP")
+    port = os.getenv("RTSP_PORT", "554")
+    return f"rtsp://{username}:{password}@{ip}:{port}/"
 
 
 def detection_loop():
     try:
-        RTSP_URL = os.getenv("RTSP_URL")
+        RTSP_URL = generate_rtsp_url()
+        high_res_stream = RTSP_URL + "stream1?tcp"
+        # low_res_stream = RTSP_URL + "stream2?tcp"
 
-        cap = cv2.VideoCapture(RTSP_URL, cv2.CAP_FFMPEG)
+        cap = cv2.VideoCapture(high_res_stream, cv2.CAP_FFMPEG)
         cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
         background = None
@@ -63,9 +73,12 @@ def detection_loop():
 
                     cv2.imwrite(snapshot_path, frame)
 
+                    clip_path = record_clip(cap, ts)
+
                     event = {
                         "timestamp": ts,
                         "snapshot": snapshot_path,
+                        "clip": clip_path,
                         "motion_pixels": motion_pixels,
                     }
 
