@@ -1,15 +1,25 @@
 import threading
 import uvicorn
+import os
 from detect import detection_loop
 from app import app
-
+from camera import Camera
 def main():
-    # Start detection loop in background thread
-    t = threading.Thread(
-        target=detection_loop,
-        daemon=True
+
+    front_cam = Camera(
+        os.getenv("RTSP_USERNAME"),
+        os.getenv("RTSP_PASSWORD"),
+        os.getenv("RTSP_IP"),
+        os.getenv("RTSP_PORT")
     )
-    t.start()
+
+    front_cam_url = front_cam.generate_rtsp_url()
+
+    threading.Thread(
+        target=detection_loop,
+        args=(front_cam_url,),
+        daemon=True
+    ).start()
 
     # Start FastAPI server (blocking)
     uvicorn.run(

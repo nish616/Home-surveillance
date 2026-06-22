@@ -9,17 +9,11 @@ from recorder import record_clip
 
 load_dotenv()
 
-def generate_rtsp_url():
-    username = os.getenv("RTSP_USERNAME")
-    password = os.getenv("RTSP_PASSWORD")
-    ip = os.getenv("RTSP_IP")
-    port = os.getenv("RTSP_PORT", "554")
-    return f"rtsp://{username}:{password}@{ip}:{port}/"
 
-
-def detection_loop():
+def detection_loop(RTSP_URL):
     try:
-        RTSP_URL = generate_rtsp_url()
+        if RTSP_URL == None:
+            raise Exception("RTSP URL missing") 
         high_res_stream = RTSP_URL + "stream1?tcp"
         # low_res_stream = RTSP_URL + "stream2?tcp"
 
@@ -73,14 +67,15 @@ def detection_loop():
 
                     cv2.imwrite(snapshot_path, frame)
 
-                    clip_path = record_clip(cap, ts)
-
                     event = {
                         "timestamp": ts,
                         "snapshot": snapshot_path,
-                        "clip": clip_path,
-                        "motion_pixels": motion_pixels,
+                        "motion_pixels": motion_pixels
                     }
+
+                    if state.RECORD_ENABLED:
+                        clip_path = record_clip(cap, ts)
+                        event["clip"] = clip_path
 
                     os.makedirs("events", exist_ok=True)
                     with open("events/events.jsonl", "a") as f:
