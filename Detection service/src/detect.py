@@ -24,10 +24,24 @@ def detection_loop(RTSP_URL):
         last_event_time = 0
         print("Motion detection started")
 
+        MAX_BACKOFF = 300  # 5 minutes
+        backoff = 1
+
         while True:
             ret, frame = cap.read()
             if not ret:
-                print("Failed to grab frame")
+                print(f"Stream lost. Reconnecting in {backoff}s...")
+                cap.release()
+                time.sleep(backoff)
+
+                cap = cv2.VideoCapture(high_res_stream, cv2.CAP_FFMPEG)
+                cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+
+                if cap.isOpened():
+                    print("Reconnected successfully")
+                    backoff = 1
+                else:
+                    backoff = min(backoff * 2, MAX_BACKOFF)
                 continue
 
             frame = cv2.resize(frame, (640, 360))
